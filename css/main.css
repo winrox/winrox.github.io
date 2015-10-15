@@ -1,3 +1,7 @@
+/*TODO: set @media to fix the squishing of images at small device sizes*/
+/*TODO: fix buttons to stack more neatly at smaller device sizes*/
+
+
 /*Custom Header Stlyings begins*/
 
 /*Custom Header Stlyings ends*/
@@ -40,6 +44,7 @@
 /*specific to a certain image ends*/
 
 /*Customizing Buttons begins*/
+
 #below-carousel-buttons {
   padding: 1px;
 }
