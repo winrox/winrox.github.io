@@ -29,9 +29,19 @@ var Photos = Backbone.Collection.extend({
 });
 
 var photos = new Photos([
-  new Photo({imageSource: "img/art/abstractsands.jpg", cssId: "first-photo", alternativeText: "a colorful abstract drawing that could be be seen as layers of sand", className: "center-text", category: "drawing"}),
-  new Photo({imageSource: "img/art/bluesquirrel.jpg", alternativeText: "a bright blue squirrel painting", className: "center-text", category: "painting"}),
-  new Photo({imageSource: "img/art/littlebluebirdonbranchabstract.jpg", cssId: "little-blue-bird", alternativeText: "colorful painting with a small blue bird on a branch", className: "center-text", category: "painting" })
+  new Photo({imageSource: "img/art/bluesquirrel.jpg", cssId: "first-photo", alternativeText: "a bright blue squirrel painting", className: "center-text", category: "painting"}),
+  new Photo({imageSource: "img/art/littlebluebirdonbranchabstract.jpg", cssId: "little-blue-bird", alternativeText: "colorful painting with a small blue bird on a branch", className: "center-text", category: "painting" }),
+  new Photo({imageSource: "img/art/colorfulSquirrel.jpg", alternativeText: "abstract colofrul background with a little fat squirrel", className: "center-text", category: "painting"}),
+  new Photo({imageSource: "img/art/cooldaneformom.jpg", alternativeText: "blue Great Dane bust wearing sunglasses", category: "painting"}),
+  new Photo({imageSource: "img/art/catbirdvivid.jpg", alternativeText: "vivid colors cat on a wall and blue/orange crow", category: "painting"}),
+  new Photo({imageSource: "img/art/abstractsands.jpg",  alternativeText: "a colorful abstract drawing that could be be seen as layers of sand", className: "center-text", category: "drawing"}),
+  new Photo({imageSource: "img/art/femalefigureinpastel.jpg", cssId: "", alternativeText: "naked female figure drawing cast in colorful lights", className: "center-text", category: "drawing"}),
+  new Photo({imageSource: "img/art/malefigureCD2larry.jpg", cssId: "", alternativeText: "male naked figure cast in colorful light in front of a green parachute background", className: "center-text", category: "drawing"}),
+  new Photo({imageSource: "img/art/jeremyrazorback.jpg", cssId: "", alternativeText: "Arkansas Razorback Hog made extremely colorful", className: "center-text", category: "painting"}),
+  new Photo({imageSource: "img/art/rainbowTree.jpg", cssId: "", alternativeText: "spectrum background with white outline of tree", className: "center-text", category: "painting"}),
+  new Photo({imageSource: "img/art/stillifehomeprojectcolordrawing.jpg", cssId: "", alternativeText: "still-life of objects found in my kitchen in college", className: "center-text", category: "drawing"}),
+  new Photo({imageSource: "img/art/vangoghinspireddrawing.png", cssId: "", alternativeText: "Van Gogh inspired fantasy landscape 1", className: "center-text", category: "drawing"}),
+  // new Photo({imageSource: "img/art/", cssId: "", alternativeText: "", className: "center-text", category: ""}),
 ]);
 
 var my_template = _.template('<div class="item"><img src="{{imageSource}}" alt="{{alternativeText}}" id="{{cssId}}" class="{{className}}"></div>'); //<div class="item"><img id="{{cssId}}" src="{{imageSource}}" alt="{{alternativeText}}" class=("item "+"{{className}}")></div>
