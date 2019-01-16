@@ -5,6 +5,7 @@ ctx.fillStyle = "#fff";
 ctx.fillText( "Click me or press Enter to start the game", 20, 250 );
 const cWidth = 500;
 const cHeight = 500;
+const pickANumber = ( min, max ) => Math.round( Math.random() * ( max - min ) + min );
 
 let snakeList,
     foodList,
@@ -15,7 +16,7 @@ let snakeList,
     intervalVar,
     score,
     running = false,
-    rainbow = 15,
+    rainbow = pickANumber( 15, 40 ),
     interval = 20;
 
 const snakeSegment = {
@@ -161,7 +162,6 @@ const generateFood = () => {
     const x = Math.random() * 485 + 5;
     const y = Math.random() * 485 + 5;
     const i = rainbow < 1 && Math.round( Math.random() ) ? 1 : 0;
-    const pickANumber = ( min, max ) => Math.round( Math.random() * ( max - min ) + min );
     if ( i === 1 ) rainbow = Math.round( ( Math.random() + 1 ) ) * pickANumber(25, 50);
     nextFood = { x, y, i };
     foodList[0] = nextFood;
