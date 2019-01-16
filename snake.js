@@ -190,13 +190,18 @@ const checkForFoodCollision = () => {
   }
 }
 
-const updateSnakePosition = () => {
+const updateScore = () => {
+  const scoreDiv = document.getElementById( 'score' );
+  scoreDiv.innerText = `Score: ${ score }`;
+}
+
+const updateGame = () => {
   ctx.clearRect( 0, 0, cWidth, cHeight );
   generateFood();
   foodList.forEach( drawFood );
   snakeList.forEach( drawSnake );
   checkForFoodCollision();
-  ctx.fillText( `Score: ${ score }`, 375, 30 );
+  updateScore();
   isGameOver();
   handleOffScreenPositioning();
   updateSnakeList();
@@ -204,11 +209,7 @@ const updateSnakePosition = () => {
 }
 
 const runGame = () => {
-  setTimeout( updateSnakePosition, interval );
-}
-
-const stopGame = () => {
-
+  setTimeout( updateGame, interval );
 }
 
 const startGame = () => {
@@ -250,7 +251,7 @@ const startGame = () => {
 // // - add a background ✅
 // // -
 // IMPROVEMNTS:
-// // - move score outside of game screen
+// // - move score outside of game screen ✅
 // // - db to hold high score value? firebase?
 // // - you can get totally off screen, fix it
 // // -
