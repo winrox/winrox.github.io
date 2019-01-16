@@ -96,7 +96,7 @@ const snakeCollision = ( snake1, snake2 ) => (
 
 const getSkin = ( type = 'original' ) => {
   let skin;
-  if ( type === 'rainbow' ) skin = getRainbowGradient( 0, 0, 500, 0 );
+  if ( type === 'rainbow' || interval === 14 ) skin = getRainbowGradient( 0, 0, 500, 0 );
   else {
     const snakeSkin = new Image();
     snakeSkin.src = 'https://www.decodip.com/wp-content/uploads/Film-AP-161.jpg';
@@ -182,8 +182,10 @@ const checkForFoodCollision = () => {
     else if ( direction == 2 ) newX = snakeList[0].x + 20;
     else if ( direction == 3 ) newY = snakeList[0].y + 20;
 
-    if ( lastFood && lastFood.type === 'rainbow' ) interval = 15;
-    else interval = 20;
+    if ( lastFood && lastFood.type === 'rainbow' ) {
+      interval = 14;
+      setTimeout( () => interval = 20, 20000 );
+    }
     snakeList.unshift({ x: newX, y: newY });
   }
 }
