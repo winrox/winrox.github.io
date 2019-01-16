@@ -8,31 +8,41 @@ const cHeight = 500;
 
 let snakeList,
     foodList,
+    nextFood,
+    lastFood,
     direction,
     eaten,
     intervalVar,
     score,
-    running = false;
-
-const snakeSkin = new Image();
-snakeSkin.src = 'https://www.decodip.com/wp-content/uploads/Film-AP-161.jpg';
-const snakeSkinPattern = ctx.createPattern( snakeSkin, 'repeat' );
+    running = false,
+    blue = 15,
+    interval = 20;
 
 const snakeSegment = {
   width: 20,
   height: 20,
-  color: snakeSkinPattern
+  color: '#264d00'
 };
 
-const foodAttrs = {
+const foods = [{
+  type: 'original',
   width: 20,
   height: 20,
-  color: 'orange'
-};
+  color: '#ffcc00'
+},{
+  type: 'blue',
+  width: 25,
+  height: 25,
+  color: '#005ce6'
+}];
 
 canvas.onmousedown = () => {
   if ( running ) clearInterval( intervalVar );
   startGame();
+}
+
+if ( !!lastFood ) {
+  debugger;
 }
 
 document.onkeydown = ( event ) => {
@@ -58,9 +68,9 @@ document.onkeydown = ( event ) => {
 }
 
 const foodCollision = ( snake, food ) => (
-  ( snake.x <= food.x + foodAttrs.width ) &&
+  ( snake.x <= food.x + foods[ food.i ].width ) &&
   ( food.x <= snake.x + snakeSegment.width ) &&
-  ( snake.y <= food.y + foodAttrs.height ) &&
+  ( snake.y <= food.y + foods[ food.i ].height ) &&
   ( food.y <= snake.y + snakeSegment.height )
 );
 
@@ -69,26 +79,40 @@ const snakeCollision = ( snake1, snake2 ) => (
   ( Math.abs( snake1.y - snake2.y ) < 5 )
 );
 
-const getSkin = () => {
-  const snakeSkin = new Image();
-  snakeSkin.src = 'https://www.decodip.com/wp-content/uploads/Film-AP-161.jpg';
-  const snakeSkinPattern = ctx.createPattern( snakeSkin, 'repeat' );
+const getSkin = ( type = 'original' ) => {
+  let skin;
 
-  return snakeSkinPattern;
+  if ( type === 'blue' ) {
+    debugger;
+    const blueSkin = new Image();
+    blueSkin.src = 'http://www.pinecrestfabrics.com.au/wp-content/uploads/2015/01/LPC19145-Turq.jpg';
+    const blueSkinPattern = ctx.createPattern( blueSkin, 'repeat' );
+    skin = blueSkinPattern;
+  } else {
+    const snakeSkin = new Image();
+    snakeSkin.src = 'https://www.decodip.com/wp-content/uploads/Film-AP-161.jpg';
+    const snakeSkinPattern = ctx.createPattern( snakeSkin, 'repeat' );
+    skin = snakeSkinPattern;
+  }
+
+  return skin;
 }
 
 const drawSnake = ( body, i ) => {
   ctx.save();
-  if ( i === 0 ) ctx.fillStyle = '#000';
-  else ctx.fillStyle = getSkin() || snakeSegment.color;
+  if ( i === 0 ) {
+    ctx.fillStyle = '#000';
+  } else ctx.fillStyle = getSkin( (lastFood || {}).type || null ) || snakeSegment.color;
+
   ctx.fillRect( body.x, body.y, snakeSegment.width, snakeSegment.height );
   ctx.restore();
 }
 
 const drawFood = ( item ) => {
   ctx.save();
-  ctx.fillStyle = foodAttrs.color;
-  ctx.fillRect( item.x, item.y, foodAttrs.width, foodAttrs.height );
+  const food = foods[ item.i ];
+  ctx.fillStyle = food.color;
+  ctx.fillRect( item.x, item.y, food.width, food.height );
   ctx.restore();
 }
 
@@ -116,7 +140,7 @@ const isGameOver = () => {
     if ( i === '0' ) continue;
     if ( snakeCollision( snakeList[0], snakeList[i] ) ) {
       clearInterval( intervalVar );
-      ctx.fillText( 'Game Over! Click or Enter to restart', 80, 250 );
+      ctx.fillText( 'Game Over! Click or Enter to restart', 45, 250 );
       break;
     }
   }
@@ -124,15 +148,20 @@ const isGameOver = () => {
 
 const generateFood = () => {
   while( eaten ) {
+    blue--;
     const x = Math.random() * 485 + 5;
     const y = Math.random() * 485 + 5;
-    foodList[0] = { x, y };
+    const i = blue < 1 && Math.round( Math.random() ) ? 1 : 0;
+    if ( i === 1 ) blue = 15;
+    nextFood = { x, y, i };
+    foodList[0] = nextFood;
     eaten = false;
   }
 }
 
 const checkForCollisions = () => {
   if ( foodCollision( snakeList[0], foodList[0] ) ) {
+    lastFood = foodList[0] && foodList[0].i ? foods[ foodList[0].i ] : null;
     foodList = [];
     eaten = true;
     score += 1;
@@ -170,7 +199,7 @@ const startGame = () => {
   eaten = true;
   score = 0;
   running = true;
-  intervalVar = setInterval( updateSnakePosition, 20 );
+  intervalVar = setInterval( updateSnakePosition, interval );
 }
 
 // TODO: see if the async await will help any of the gameplay functions
@@ -203,3 +232,21 @@ const startGame = () => {
 // // - db to hold high score value? firebase?
 // // -
 */
+
+// var c = document.getElementById("myCanvas");
+// var ctx = c.getContext("2d");
+//
+// var grd = ctx.createLinearGradient(0, 0, 150, 0);
+// grd.addColorStop( 0.1, "red" );
+// grd.addColorStop( 0.2, "orange" );
+// grd.addColorStop( 0.3, "yellow" );
+// grd.addColorStop( 0.4, "green" );
+// grd.addColorStop( 0.5, "#006666" );
+// grd.addColorStop( 0.6, "blue" );
+// grd.addColorStop( 0.7, "indigo" );
+// grd.addColorStop( 0.8, "purple" );
+// grd.addColorStop( 0.9, "#ff0066" );
+// grd.addColorStop( 1, "red" );
+//
+// ctx.fillStyle = grd;
+// ctx.fillRect(20, 20, 150, 100);
