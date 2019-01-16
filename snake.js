@@ -47,12 +47,14 @@ const foods = [{
   type: 'original',
   width: 20,
   height: 20,
-  color: () => '#ffcc00'
+  color: () => '#ffcc00',
+  value: 1
 },{
   type: 'rainbow',
   width: 25,
   height: 25,
-  color: () => getRainbowGradient( true )
+  color: () => getRainbowGradient( true ),
+  value: 5
 }];
 
 canvas.onmousedown = () => {
@@ -159,19 +161,20 @@ const generateFood = () => {
     const x = Math.random() * 485 + 5;
     const y = Math.random() * 485 + 5;
     const i = rainbow < 1 && Math.round( Math.random() ) ? 1 : 0;
-    if ( i === 1 ) rainbow = 15;
+    const pickANumber = ( min, max ) => Math.round( Math.random() * ( max - min ) + min );
+    if ( i === 1 ) rainbow = Math.round( ( Math.random() + 1 ) ) * pickANumber(25, 50);
     nextFood = { x, y, i };
     foodList[0] = nextFood;
     eaten = false;
   }
 }
 
-const checkForCollisions = () => {
+const checkForFoodCollision = () => {
   if ( foodCollision( snakeList[0], foodList[0] ) ) {
     lastFood = foodList[0] && foodList[0].i ? foods[ foodList[0].i ] : null;
     foodList = [];
     eaten = true;
-    score += 1;
+    score = lastFood && lastFood.value ? score + lastFood.value : score + 1;
     let newX = snakeList[0].x,
         newY = snakeList[0].y;
     if      ( direction == 0 ) newX = snakeList[0].x - 20;
@@ -181,7 +184,6 @@ const checkForCollisions = () => {
 
     if ( lastFood && lastFood.type === 'rainbow' ) interval = 15;
     else interval = 20;
-    console.log( interval );
     snakeList.unshift({ x: newX, y: newY });
   }
 }
@@ -191,7 +193,7 @@ const updateSnakePosition = () => {
   generateFood();
   foodList.forEach( drawFood );
   snakeList.forEach( drawSnake );
-  checkForCollisions();
+  checkForFoodCollision();
   ctx.fillText( `Score: ${ score }`, 375, 30 );
   isGameOver();
   handleOffScreenPositioning();
@@ -225,8 +227,7 @@ const startGame = () => {
 /*
 // IDEAS:
 // SPECIAL FOOD TYPES:
-// // - rainbow food makes snake flash colors and move faster for 5-10 seconds
-// // - some foods make the snake change color (not on a timer)
+// // - rainbow food makes snake flash colors and move faster ✅
 // // - death food that needs to be avoided that only spawns after you've
 // //   reached a certain score just to make the game harder. These will have to
 // //   be avoided for a certain amt of time then another food will spawn.
