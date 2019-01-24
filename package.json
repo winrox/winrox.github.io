@@ -1,0 +1,15 @@
+{
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winrox/winrox.github.io"
+  },
+  "engines": {},
+  "scripts": {},
+  "devDependencies": {
+    "webpack": "^4.29.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "react": "^16.7.0"
+  }
+}

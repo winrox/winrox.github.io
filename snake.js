@@ -17,6 +17,7 @@ let snakeList,
     score,
     running = false,
     rainbow = pickANumber( 15, 40 ),
+    death = pickANumber( 50, 70 ),
     interval = 20;
 
 const snakeSegment = {
@@ -44,11 +45,13 @@ const getRainbowGradient = ( food = false ) => {
   return grd;
 }
 
+
+
 const foods = [{
   type: 'original',
   width: 20,
   height: 20,
-  color: () => '#ffcc00',
+  color: 'brown',
   value: 1
 },{
   type: 'rainbow',
@@ -56,6 +59,12 @@ const foods = [{
   height: 25,
   color: () => getRainbowGradient( true ),
   value: 5
+},{
+  type: 'death',
+  width: 50,
+  height: 50,
+  color: 'orange',
+  value: -50,
 }];
 
 canvas.onmousedown = () => {
@@ -112,6 +121,7 @@ const drawSnake = ( body, i ) => {
   ctx.save();
   if ( i === 0 ) {
     ctx.fillStyle = '#000';
+    const color = typeof snak
   } else ctx.fillStyle = getSkin( (lastFood || {}).type || null ) || snakeSegment.color;
 
   ctx.fillRect( body.x, body.y, snakeSegment.width, snakeSegment.height );
@@ -121,7 +131,7 @@ const drawSnake = ( body, i ) => {
 const drawFood = ( item ) => {
   ctx.save();
   const food = foods[ item.i ];
-  ctx.fillStyle = food.color();
+  ctx.fillStyle = typeof food.color === 'function' ? food.color() : food.color;
   ctx.fillRect( item.x, item.y, food.width, food.height );
   ctx.restore();
 }
@@ -145,36 +155,36 @@ const handleOffScreenPositioning = () => {
   if ( snakeList[0].y < 0 )   snakeList[0].y = 500;
 }
 
+const gameOver = () => {
+  running = false;
+  ctx.save();
+  ctx.fillStyle = 'white';
+  ctx.fillText( 'Game Over! Click or Enter to restart', 45, 250 );
+  ctx.restore();
+}
+
 const isGameOver = () => {
+  if ( score < 0 ) return gameOver();
   for ( i in snakeList ) {
     if ( i === '0' ) continue;
     if ( snakeCollision( snakeList[0], snakeList[i] ) ) {
-      running = false;
-      ctx.fillText( 'Game Over! Click or Enter to restart', 45, 250 );
+      gameOver();
       break;
     }
   }
 }
 
-const generateFood = () => {
-  while( eaten ) {
-    rainbow--;
-    const x = Math.random() * 485 + 5;
-    const y = Math.random() * 485 + 5;
-    const i = rainbow < 1 && Math.round( Math.random() ) ? 1 : 0;
-    if ( i === 1 ) rainbow = Math.round( ( Math.random() + 1 ) ) * pickANumber(25, 50);
-    nextFood = { x, y, i };
-    foodList[0] = nextFood;
-    eaten = false;
-  }
-}
+const updateScore = ( foodEaten ) => foodEaten && foodEaten.value
+  ? score + foodEaten.value
+  : score + 1;
 
-const checkForFoodCollision = () => {
-  if ( foodCollision( snakeList[0], foodList[0] ) ) {
+const checkForFoodCollision = ( forceNew = false ) => {
+  const collision = foodCollision( snakeList[0], foodList[0] );
+  if ( collision || forceNew ) {
     lastFood = foodList[0] && foodList[0].i ? foods[ foodList[0].i ] : null;
     foodList = [];
     eaten = true;
-    score = lastFood && lastFood.value ? score + lastFood.value : score + 1;
+    score = forceNew ? score : updateScore( lastFood );
     let newX = snakeList[0].x,
         newY = snakeList[0].y;
     if      ( direction == 0 ) newX = snakeList[0].x - 20;
@@ -187,6 +197,32 @@ const checkForFoodCollision = () => {
       setTimeout( () => interval = 20, 20000 );
     }
     snakeList.unshift({ x: newX, y: newY });
+  }
+}
+
+const generateFood = () => {
+  while( eaten ) {
+    rainbow--;
+    death--;
+    const x = Math.random() * 485 + 5;
+    const y = Math.random() * 485 + 5;
+    let i;
+    if ( death > 0 ) {
+      i = rainbow < 1 && Math.round( Math.random() ) ? 1 : 0;
+    } else i = 2;
+
+    nextFood = { x, y, i };
+    foodList[0] = nextFood;
+
+    if ( i === 1 ) rainbow = Math.round( ( Math.random() + 1 ) ) * pickANumber(25, 50);
+    if ( i === 2 ) {
+      death = pickANumber( score > 100 ? 10 : 30, score > 100 ? 30 : 50 );
+      setTimeout( () => {
+        checkForFoodCollision( true ); // self destruct
+        generateFood();
+      }, score > 100 ? ( pickANumber( 8, 12 )* 1000 ) : 5000 );
+    }
+    eaten = false;
   }
 }
 
@@ -209,6 +245,7 @@ const updateGame = () => {
 }
 
 const runGame = () => {
+  running = true;
   setTimeout( updateGame, interval );
 }
 
@@ -222,7 +259,6 @@ const startGame = () => {
   direction = 2;
   eaten = true;
   score = 0;
-  running = true;
   runGame();
 }
 
