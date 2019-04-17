@@ -1,7 +1,15 @@
 {
   "name": "winnies_website",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
+  "description": "description goes here",
+  "private": false,
+  "main": "bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winrox/winrox.github.io"
+  },
+  "author": "Mariah Winifred Palangpour",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.407.0",
     "react": "^16.7.0",
