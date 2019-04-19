@@ -18,7 +18,7 @@ class PythonYatzyShell extends React.Component {
       <div>
         <h1>Python Yatzy</h1>
         <iframe
-          src="https://trinket.io/embed/python3/264ce0a0f4?outputOnly=true&runOption=run&start=result"
+          src="https://trinket.io/embed/python3/1ca564d860?outputOnly=true&runOption=run&start=result"
           height="700"
           frameBorder="0"
           marginHeight="0"

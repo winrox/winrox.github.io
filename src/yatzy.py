@@ -806,26 +806,6 @@ OR type 'all', 'cancel' or 'help'
         else:
             self.score.set_score(hand, category, self.invalid_choice)
 
-        if score.lower_total != None and score.upper_total != None and self.turn % 2 == 0:
-            self.clear_screen()
-            print("\nGAME OVER\nHere are the final scorecards:\n")
-            self.comp_score.print_score()
-            sleep(1)
-            score.print_score()
-            print(f"\n\nYou scored {score.grand_total} points")
-            sleep(1)
-            print(f"The computer scored {self.comp_score.grand_total} points")
-            if score.grand_total > self.comp_score.grand_total:
-                print("Congratulations, you won!!! 🎉 ")
-            elif score.grand_total == self.comp_score.grand_total:
-                print("Yuck, looks like you and the computer tie.")
-            else:
-                print("Darn! The computer beat you this time.")
-            sleep(1)
-            print("See you next time 👋 ")
-            sleep(2)
-            self.playing = False
-
         # check for score diff before ending hand, otherwise try again
         new_score = score.get_state()
         if not new_score.items() - old_score.items():
@@ -833,8 +813,11 @@ OR type 'all', 'cancel' or 'help'
             self.print_hand(hand, False)
             self.choose_score(hand)
         else:
-            self.turn += 1
-            return new_score
+            if score.lower_total != None and score.upper_total != None and self.turn % 2 == 0:
+                return self.end_game()
+            else:
+                self.turn += 1
+                return new_score
 
     def comp_determine_reroll(self, possibilities, hand):
         nums_to_reroll = list()
@@ -1091,7 +1074,7 @@ OR type 'all', 'cancel' or 'help'
     def play(self):
         comp_turn = (self.turn % 2) == 0
         if self.score.lower_total != None and self.score.upper_total != None and self.comp_score.lower_total != None and self.comp_score.upper_total != None:
-            self.end_game()
+            return self.end_game()
         elif not comp_turn and not self.help_shown_last and self.turn != 1:
             print("\nIt's your turn now {}. Type 'roll' to continue.".format(self.score.player_name))
         elif self.help_shown_last and self.score.player_name != None:
@@ -1148,3 +1131,4 @@ while game.playing:
 
 # TODO 'h' shortcut for help and make sure the computer's turn does not get skipped!
 # TODO: cannot quit when it is prompting for scorecard selection, FIX IT!
+# TODO: a way to go back and decide to roll again if you accidentally entered something other than 'Y'
