@@ -42,29 +42,22 @@ class TicTacToe extends React.Component {
   }
 
   tileClickHandler = tile => {
-    this.setState({ clickCounter: this.state.clickCounter + 1 });
+    const { clickCounter } = this.state;
 
     if ( this.state.winnerFound === true ) {
       return;
     } else {
-      var even = this.isEven( this.state.clickCounter );
+      var even = this.isEven( clickCounter );
 
       if ( tile.src !== 'blank' ) {
         this.setState({alertMessage: "I'm sorry. That spot has already been taken."});
-        this.setState({ clickCounter: this.state.clickCounter - 1 });
-      }
-
-       else if ( even === true ) {
+      } else if ( even ) {
         tile.src = "X"
-        this.setState({ alertMessage: "" });
-      }
-
-      else if ( even === false ) {
+        this.setState({ alertMessage: "", clickCounter: clickCounter + 1 });
+      } else if ( !even ) {
         tile.src = "O"
-        this.setState({ alertMessage: "" });
-      }
-
-      else {
+        this.setState({ alertMessage: "", clickCounter: clickCounter + 1 });
+      } else {
         this.setState({ clickCounter: this.state.clickCounter - 1 });
       }
     }
