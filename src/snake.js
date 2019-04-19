@@ -4,8 +4,8 @@ import Spinner from './spinner';
 const AWS = require('aws-sdk');
 const awsDyDBParams = {
   region: 'us-east-2',
-  accessKeyId: process.env.YOUR_MOM,
-  secretAccessKey: process.env.F_U,
+  accessKeyId: process.env.REACT_APP_YOUR_MOM,
+  secretAccessKey: process.env.REACT_APP_F_U,
   dynamodb: '2012-08-10'
 };
 
@@ -79,7 +79,6 @@ class Snake extends React.Component {
     this.drawFoodKey();
 
     window.addEventListener("keydown", this.onKeyPress.bind(this));
-    console.log('DEBUGGING ENV VARS! ', !!process.env.YOUR_MOM, !!process.env.F_U );
     this.fetchHighScores();
   }
 
