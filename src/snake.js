@@ -87,7 +87,6 @@ class Snake extends React.Component {
   }
 
   drawFoodKey() {
-    // Draw Food Key
     const foodKey = document.getElementById('foodKey');
     const keyCtx = foodKey.getContext('2d');
     keyCtx.fillStyle = "#fff";
@@ -623,7 +622,7 @@ export default Snake;
 // // - key for food types ✅
 // ASTHETICS:
 // // - make snake less blocky
-// // - body pattern ✅
+// // - body pattern ✅  TODO: think about fixing, broke at some point
 // // - pointed tail
 // // - rounded or pointy head
 // // - add a background ✅
@@ -632,8 +631,9 @@ export default Snake;
 // // - move score outside of game screen ✅
 // // - db to hold high score value? ✅
 // // - you can get totally off screen, fix it
+// // - food can spawn right next to your head, should make that not possible
+// //   so that a danger food can't spawn and immediately get you for -50 pts.
 // // -
 // BUGS:
-// // - danger/death food can spawn right near you causing -50 pts when not even seen, not fair
 // // - you can sometimes go through the snake body without a game over
 */

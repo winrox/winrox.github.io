@@ -1147,3 +1147,4 @@ while game.playing:
 
 
 # TODO 'h' shortcut for help and make sure the computer's turn does not get skipped!
+# TODO: cannot quit when it is prompting for scorecard selection, FIX IT!
