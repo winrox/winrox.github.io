@@ -79,7 +79,7 @@ class Snake extends React.Component {
     this.drawFoodKey();
 
     window.addEventListener("keydown", this.onKeyPress.bind(this));
-
+    console.log('DEBUGGING ENV VARS! ', !!process.env.YOUR_MOM, !!process.env.F_U );
     this.fetchHighScores();
   }
 
