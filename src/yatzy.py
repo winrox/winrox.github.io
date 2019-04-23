@@ -1122,11 +1122,11 @@ OR type 'all', 'cancel' or 'help'
                 print("I'm sorry your choice wasn't recognized.\nPlease type one of the following next time: 'roll', 'help', or 'quit'\nYour turn will now restart.")
 
 
-game = PlayYatzy()
-game.clear_screen()
-
-while game.playing:
-    game.play()
+# game = PlayYatzy()
+# game.clear_screen()
+#
+# while game.playing:
+#     game.play()
 
 
 # TODO 'h' shortcut for help and make sure the computer's turn does not get skipped!

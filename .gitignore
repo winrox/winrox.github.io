@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 node_modules
 npm-debug.log
+
+__pycache__*
