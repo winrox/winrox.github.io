@@ -1,0 +1,2 @@
+const whatToExecute = '{"instructions": [["LOAD_VALUE", 0], ["LOAD_VALUE", 1], ["ADD_TWO_VALUES", null], ["PRINT_ANSWER", null]], "numbers": [7, 5]}';
+module.exports = { whatToExecute: whatToExecute };

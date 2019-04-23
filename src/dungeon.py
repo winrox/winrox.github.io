@@ -85,12 +85,7 @@ player = None
 
 while True:
     if first_move:
-        print("
-            Welcome to the dungeon!\n
-            You're trapped and need to escape.\n
-            You don't know which room the door to escape is in or which room contains a monster.\n
-            Try to escape, good luck!!!
-        ")
+        print("Welcome to the dungeon!\nYou're trapped and need to escape.\nYou don't know which room the door to escape is in or which room contains a monster.\nTry to escape, good luck!!!")
         first_move = False
         monster, door, player_pos = get_locations()
         player = player_pos
