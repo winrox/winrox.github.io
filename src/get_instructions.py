@@ -13,7 +13,7 @@ finally:
 out = out.getvalue()
 
 
-out_file = open("./yatzy_bytes.py", "w") # open for [w]riting as [b]inary
+out_file = open("./yatzy_disassembly.py", "w") # open for [w]riting as [b]inary
 out_file.write(out)
 out_file.close()
 

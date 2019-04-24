@@ -7,24 +7,3 @@ function Spinner () {
 }
 
 export default Spinner;
-
-// import React       from 'react';
-// import css         from './Spinner.css';
-// import LoadingIcon from '../../resources/icons/svg/loading.svg';
-// import classNames  from 'classnames';
-//
-// export default function Spinner( props ) {
-//   const classes = classNames({
-//     [ css.loading ] : true,
-//     [ props.className ] : props.className
-//   });
-//
-//   return (
-//     <div className={ classes } style={ props.style }>
-//       <LoadingIcon className={ css.spinner } style={ props.iconStyle } />
-//       { props.text &&
-//         <span className={ css.text }>{ props.text }</span>
-//       }
-//     </div>
-//   );
-// }
